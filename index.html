@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Vacuum Gauge Diagnostic Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A task-oriented, interactive diagnostic wizard. The user flow is: 1. Select Engine Type (Gas/Diesel) -> 2. Select Symptom/Test Area -> 3. Receive specific causes, explanations, and next steps. Key interactions include engine type toggles, symptom selection buttons, and dynamic content display based on user choices. This structure guides the user directly to the information they need based on their observations, which is far more efficient for troubleshooting than reading a linear document. It turns a passive guide into an active diagnostic partner. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: Normal/Abnormal gasoline vacuum readings. Goal: Compare observed behavior to known faults. Viz/Method: Interactive Chart.js gauge. Interaction: User selects a fault, and the gauge animates the corresponding needle behavior while showing diagnostic text. Justification: Visual demonstration is more intuitive than text alone. Library: Chart.js.
+        - Report Info: Diesel component test procedures. Goal: Organize complex steps. Viz/Method: Structured HTML cards. Interaction: User selects a component, and a card expands with step-by-step instructions. Justification: Breaks down dense text into manageable chunks. Library/Method: Vanilla JS.
+        - Report Info: Altitude correction. Goal: Inform/Establish Baseline. Viz/Method: Text input. Interaction: User enters altitude, and the normal vacuum range is recalculated. Justification: Personalizes the baseline for accuracy. Library/Method: Vanilla JS.
+        - Report Info: Leak detection/Safety. Goal: Inform. Viz/Method: Static content in accessible modal windows. Justification: Keeps universal reference material separate but available.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; height: 200px; max-height: 250px; }
+        @media (min-width: 640px) {
+            .chart-container { height: 250px; max-height: 300px; }
+        }
+        .nav-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+        }
+        .symptom-button.active {
+            background-color: #1e40af; /* blue-800 */
+            color: white;
+            border-color: #1e3a8a; /* blue-900 */
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900">Interactive Vacuum Gauge Diagnostic Tool</h1>
+            <p class="mt-2 text-lg text-slate-600">Your visual guide to understanding engine vacuum readings.</p>
+        </header>
+
+        <nav class="flex justify-center items-center gap-2 sm:gap-4 p-2 bg-slate-200 rounded-xl max-w-md mx-auto mb-8">
+            <button id="gas-btn" class="nav-button w-full text-center font-semibold py-3 px-4 rounded-lg transition-all duration-200 bg-white shadow-sm hover:bg-teal-500 hover:text-white">Gasoline Engine</button>
+            <button id="diesel-btn" class="nav-button w-full text-center font-semibold py-3 px-4 rounded-lg transition-all duration-200 bg-white shadow-sm hover:bg-teal-500 hover:text-white">Diesel Engine</button>
+        </nav>
+
+        <main id="content-area" class="space-y-8">
+            <!-- Content will be injected here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center">
+             <div class="flex justify-center gap-4">
+                <button id="safety-modal-btn" class="text-slate-500 hover:text-slate-800 font-medium hover:underline">Safety Precautions</button>
+                <span class="text-slate-300">|</span>
+                <button id="leaks-modal-btn" class="text-slate-500 hover:text-slate-800 font-medium hover:underline">Leak Detection</button>
+             </div>
+        </footer>
+
+    </div>
+
+    <!-- Modals -->
+    <div id="safety-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content transform -translate-y-10 bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center sticky top-0 bg-white">
+                <h2 class="text-2xl font-bold text-slate-900">Essential Safety Precautions</h2>
+                <button class="close-modal-btn text-slate-500 hover:text-slate-800">&times;</button>
+            </div>
+            <div id="safety-content" class="p-6 space-y-4"></div>
+        </div>
+    </div>
+
+    <div id="leaks-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content transform -translate-y-10 bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center sticky top-0 bg-white">
+                <h2 class="text-2xl font-bold text-slate-900">Universal Leak Detection Techniques</h2>
+                <button class="close-modal-btn text-slate-500 hover:text-slate-800">&times;</button>
+            </div>
+            <div id="leaks-content" class="p-6 space-y-4"></div>
+        </div>
+    </div>
+
+    <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
+</body>
+</html>

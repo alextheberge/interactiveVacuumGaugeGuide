@@ -1,0 +1,15 @@
+title: Interactive Vacuum Gauge Diagnostic Tool
+description: An interactive guide to troubleshooting vehicle vacuum systems based on vacuum gauge readings.
+baseurl: "/interactiveVacuumGaugeGuide" # Crucial: This is your GitHub repository name
+url: "https://alextheberge.github.io"   # Your GitHub Pages domain (username.github.io)
+theme: jekyll-theme-minimal             # A simple, clean theme compatible with GitHub Pages
+
+# Optional: If you want to exclude certain files/folders from being processed by Jekyll
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/

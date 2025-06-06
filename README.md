@@ -15,7 +15,7 @@ This project is an interactive, single-page web application designed to help use
 * Component-based diagnostic steps for diesel engines.
 * Built-in safety precautions and leak detection tips.
 * Responsive design for use on various devices.
-
+<!--
 ## Local Development
 
 To run this site locally using Jekyll:
@@ -64,4 +64,4 @@ To run this site locally using Jekyll:
 2.  In your repository settings on GitHub, under "Pages", select the source branch for GitHub Pages (e.g., `main` branch, `/ (root)` folder).
 3.  GitHub Pages will automatically build and deploy your Jekyll site. The site will be available at `https://alextheberge.github.io/interactiveVacuumGaugeGuide/`.
 
-Make sure your `_config.yml` has the correct `baseurl` and `url` settings for GitHub Pages to build links correctly.
+Make sure your `_config.yml` has the correct `baseurl` and `url` settings for GitHub Pages to build links correctly. -->
